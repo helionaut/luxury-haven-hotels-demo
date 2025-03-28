@@ -117,7 +117,7 @@ function onPlayerReady(event) {
         }
     } else {
         // Redirect to YouTube on mobile or unsupported browsers
-        const videoId = 'fJ7jiqS2zkE';
+        const videoId = '-IdUQTiWu04';
         if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             window.location.href = `youtube://watch?v=${videoId}`;
             // Fallback for if YouTube app is not installed
