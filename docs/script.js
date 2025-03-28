@@ -89,4 +89,63 @@ window.addEventListener('scroll', () => {
         header.classList.add('scroll-up');
     }
     lastScroll = currentScroll;
-}); 
+});
+
+// YouTube Player API Integration
+let player;
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('iframe-youtube-player', {
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    event.target.playVideo();
+    
+    // Check if the browser supports 360° video
+    if (browserSupports360()) {
+        // Enable VR mode if available
+        if (event.target.setSphericalProperties) {
+            event.target.setSphericalProperties({
+                enableVr: true,
+                vrQuality: 'hd4k'
+            });
+        }
+    } else {
+        // Redirect to YouTube on mobile or unsupported browsers
+        const videoId = 'fJ7jiqS2zkE';
+        if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            window.location.href = `youtube://watch?v=${videoId}`;
+            // Fallback for if YouTube app is not installed
+            setTimeout(() => {
+                window.location.href = `https://www.youtube.com/watch?v=${videoId}`;
+            }, 2500);
+        }
+    }
+}
+
+function onPlayerStateChange(event) {
+    // Loop video when it ends
+    if (event.data === YT.PlayerState.ENDED) {
+        event.target.playVideo();
+    }
+}
+
+function browserSupports360() {
+    // Check for WebGL support
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const hasWebGL = gl && gl instanceof WebGLRenderingContext;
+
+    // Check for gyroscope support
+    const hasGyro = window.DeviceOrientationEvent !== undefined;
+
+    // Check for modern browser support
+    const isModernBrowser = /Chrome|Firefox|Safari|Edge/.test(navigator.userAgent) && !/Mobile/.test(navigator.userAgent);
+
+    return hasWebGL && (hasGyro || isModernBrowser);
+} 
