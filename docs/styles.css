@@ -104,15 +104,17 @@ nav {
 
 @media screen and (max-aspect-ratio: 16/9) {
     .video-background iframe {
-        width: 177.77777778vh; /* 16/9 = 1.777... */
+        width: 200vh;
         height: 100vh;
+        transform: translate(-50%, -50%) scale(1.2);
     }
 }
 
 @media screen and (min-aspect-ratio: 16/9) {
     .video-background iframe {
         width: 100vw;
-        height: 56.25vw; /* 9/16 = 0.5625 */
+        height: 56.25vw;
+        transform: translate(-50%, -50%) scale(1.2);
     }
 }
 
@@ -120,8 +122,8 @@ nav {
     .video-background iframe {
         width: auto;
         height: 100vh;
-        min-width: 100%;
-        transform: translate(-50%, -50%) scale(1.5);
+        min-width: 150%;
+        transform: translate(-50%, -50%) scale(1.7);
     }
 }
 
